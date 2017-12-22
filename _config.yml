@@ -6,24 +6,23 @@
 # 'jekyll serve'. If you change this file, please restart the server process.
 
 # Site settings
-name: Parse Open Source Docs
-title: Parse Docs
-email: community@parse.com
-description: The open source GitHub page for the Parse platform.
-url: "http://docs.parseplatform.org" # the base hostname & protocol for your site
-repository: parse-community/docs
-facebook_username: parseit
-twitter_username:  parseit
-github_username:   parseplatform
-stackoverflow_tag: parse.com
-serverfault_tag:   parse
-support_url: https://www.parse.com/help
-apis:
-  osx: http://parseplatform.org/Parse-SDK-iOS-OSX/api/
-  android: http://parseplatform.org/Parse-SDK-Android/api/
-  js: http://parseplatform.org/Parse-SDK-JS/api/
-  php: http://parseplatform.org/parse-php-sdk/namespaces/Parse.html
-  dotnet: http://parseplatform.org/Parse-SDK-dotNET/api/
+name: RxLeanCloud Open Source Docs
+title: RxLeanCloud Docs
+email: beliveme@outlook.com
+description: Docs
+repository: RxLeanCloud/docs
+facebook_username: wujun19890209
+twitter_username:  freewing999
+github_username:   wujun4code
+stackoverflow_tag: rxleancloud
+serverfault_tag:   leancloud
+# support_url: https://www.parse.com/help
+# apis:
+#   osx: http://parseplatform.org/Parse-SDK-iOS-OSX/api/
+#   android: http://parseplatform.org/Parse-SDK-Android/api/
+#   js: http://parseplatform.org/Parse-SDK-JS/api/
+#   php: http://parseplatform.org/parse-php-sdk/namespaces/Parse.html
+#   dotnet: http://parseplatform.org/Parse-SDK-dotNET/api/
 
 # Build settings
 markdown: kramdown

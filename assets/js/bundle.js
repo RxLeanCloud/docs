@@ -67,6 +67,8 @@
 	    } else {
 	      toc.style.position = 'absolute';
 	      toc.style.left = '0';
+	      // toc.style.position = 'fixed';
+	      // toc.style.left = '0';
 	    }
 	  };
 	})();
@@ -689,10 +691,10 @@
 	      if (this.platform === "ios" || this.platform === "osx" || this.platform === "macos") {
 	        new App.Views.Docs.Toggle({
 	          parent: this.scrollContent,
-	          opt1: 'objectivec',
-	          opt2: 'swift',
-	          label1: 'Objective-C',
-	          label2: 'Swift',
+	          opt1: 'swift',
+	          opt2: 'js',
+	          label1: 'Swift',
+	          label2: 'JavaScript',
 	          onChange: this.handleToggleChange.bind(this)
 	        });
 	      } else if (this.platform === "rest") {
@@ -702,6 +704,15 @@
 	          opt2: 'python',
 	          label1: 'cURL',
 	          label2: 'Python',
+	          onChange: this.handleToggleChange.bind(this)
+	        });
+	      } else {
+	        new App.Views.Docs.Toggle({
+	          parent: this.scrollContent,
+	          opt1: 'swift',
+	          opt2: 'js',
+	          label1: 'Swift',
+	          label2: 'JavaScript',
 	          onChange: this.handleToggleChange.bind(this)
 	        });
 	      }
@@ -739,6 +750,7 @@
 	        case 'macos':
 	          $('.common-lang-block.objectivec').show();
 	          $('.common-lang-block.swift').show();
+	          $('.common-lang-block.js').show();
 	          break;
 	        case 'android':
 	          $('.common-lang-block.java').show();
@@ -760,6 +772,7 @@
 	        case 'cloudcode':
 	        case 'js':
 	        default:
+	          $('.common-lang-block.swift').show();
 	          $('.common-lang-block.js').show();
 	      }
 	    },
@@ -877,6 +890,35 @@
 	        if (typeof Storage !== "undefined") {
 	          localStorage.setItem('parse-server-custom-clientkey', clientKey);
 	        }
+	      });
+
+	      // set reset button
+	      $('#parse-server-custom-values-reset').click(function () {
+	        // reset defaults
+	        var _default = $("#parse-server-custom-url").attr('defaultval');
+	        $(".custom-parse-server-url").html(_default);
+	        $("#parse-server-custom-url").val(_default);
+	        localStorage.setItem('parse-server-custom-url', _default);
+
+	        _default = $("#parse-server-custom-mount").attr('defaultval');
+	        $(".custom-parse-server-mount").html("/" + _default + "/");
+	        $("#parse-server-custom-mount").val(_default);
+	        localStorage.setItem('parse-server-custom-mount', "/" + _default + "/");
+
+	        _default = $("#parse-server-custom-protocol").attr('defaultval');
+	        $(".custom-parse-server-protocol").html(_default);
+	        $("#parse-server-custom-protocol").val(_default);
+	        localStorage.setItem('parse-server-custom-protocol', _default);
+
+	        _default = $("#parse-server-custom-appid").attr('defaultval');
+	        $(".custom-parse-server-appid").html(_default);
+	        $("#parse-server-custom-appid").val(_default);
+	        localStorage.setItem('parse-server-custom-appid', _default);
+
+	        _default = $("#parse-server-custom-clientkey").attr('defaultval');
+	        $(".custom-parse-server-clientkey").html(_default);
+	        $("#parse-server-custom-clientkey").val(_default);
+	        localStorage.setItem('parse-server-custom-clientkey', _default);
 	      });
 	    },
 

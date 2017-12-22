@@ -1,7 +1,7 @@
 <header class="site__header site__header--white">
-    <div class="container">
+	<div class="container">
 
-        <a href="/" class="header-logo">
+		<!-- <a href="/" class="header-logo">
             <span class="hidden">Parse</span>
             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
             	 viewBox="0 0 152 60" style="enable-background:new 0 0 152 60;" xml:space="preserve">
@@ -42,23 +42,33 @@
             		c0-7.872,5.076-12.986,12.066-12.986c6.695,0,11.551,4.782,11.551,11.588C44.723,32.026,39.499,36.955,32.473,36.955z"/>
             </g>
             </svg>
-        </a>
+        </a> -->
 
-        <a class="header-hamburger" data-menu-trigger="toggle">
-            <span class="header-hamburger__wrap">
-                <span class="header-hamburger__line--top"></span>
-                <span class="header-hamburger__line--middle"></span>
-                <span class="header-hamburger__line--bottom"></span>
+		<a class="header-hamburger" data-menu-trigger="toggle">
+			<span class="header-hamburger__wrap">
+				<span class="header-hamburger__line--top"></span>
+				<span class="header-hamburger__line--middle"></span>
+				<span class="header-hamburger__line--bottom"></span>
 
-                <span class="header-hamburger__line--arrow-top"></span>
-                <span class="header-hamburger__line--arrow-bottom"></span>
-            </span>
-        </a>
+				<span class="header-hamburger__line--arrow-top"></span>
+				<span class="header-hamburger__line--arrow-bottom"></span>
+			</span>
+		</a>
 
-        <ul class="header-nav">
-            <li><a href="{{ site.baseUrl }}/">Docs</a></li>
-            <li><a href="http://blog.parse.com">Blog</a></li>
-        </ul>
+		<ul class="header-nav">
+			<li>
+				<a href="{{ site.baseUrl }}/">Docs</a>
+			</li>
+			<!-- <li><a href="http://blog.parse.com">Blog</a></li> -->
+			<li>
+				<a href="https://github.com/RxLeanCloud">
+					<svg class="icon icon-github">
+						<use xlink:href="{{ site.baseurl }}/assets/symbols.svg#github"></use>
+					</svg>
+				</a>
+			</li>
+		</ul>
 
-    </div><!-- container -->
+	</div>
+	<!-- container -->
 </header>

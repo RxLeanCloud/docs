@@ -1,14 +1,27 @@
-# Objects
+# 对象
 
-## The PFObject
+开始之前请阅读官方文档，
 
-Storing data on Parse is built around the `PFObject`. Each `PFObject` contains key-value pairs of JSON-compatible data. This data is schemaless, which means that you don't need to specify ahead of time what keys exist on each `PFObject`. You simply set whatever key-value pairs you want, and our backend will store it.
+## AVObject
 
-For example, let's say you're tracking high scores for a game. A single `PFObject` could contain:
+AVObject 是持久性结构化数据的存储模型，本质上就是 MongoDB 里面的一条记录，它格式如下：
 
 ```js
-score: 1337, playerName: "Sean Plott", cheatMode: false
+title: "周报提醒", content: "每周五下午要提交周报"
 ```
+
+而存储上面这个对象的代码如下：
+
+
+```swift
+var todo = AVObject(className: "SwiftTodo")
+todo["title"] = "周报提醒"
+todo["content"] = "每周五下午要提交周报"
+todo.save().subscribe { (event) in
+    print(event.element?.objectId)
+}
+```
+
 
 Keys must be alphanumeric strings. Values can be strings, numbers, booleans, or even arrays and dictionaries - anything that can be JSON-encoded.
 
