@@ -1,6 +1,6 @@
 // Sticky TOC
-(function() {
-  window.onscroll = window.onresize = function() {
+(function () {
+  window.onscroll = window.onresize = function () {
     var scrollPos = window.pageYOffset || document.documentElement.scrollTop;
     var windowWidth = window.innerWidth || document.body.clientWidth;
     var toc = document.getElementById('toc');
@@ -512,79 +512,69 @@ App.Views = {};
     this.label1 = options.label1;
     this.label2 = options.label2;
     this.onChange = options.onChange;
+
+    this.codeBlocks =
+      [
+        { opt: 'swift', label: 'Swift' },
+        { opt: 'ts', label: 'TypeScript' },
+        { opt: 'java-an', label: 'Java@Android' },
+        { opt: 'kt-an', label: 'Kotlin@Android' },
+        { opt: 'csharp', label: 'C#' },
+      ];
+    if (options.codeBlocks) {
+      this.codeBlocks = options.codeBlocks;
+    }
+
     this.render();
   };
 
   Toggle.prototype = {
     render: function () {
-      var opt1Els = this.parent.getElementsByClassName('hljs ' + this.opt1);
-      for (var i = 0; i < opt1Els.length; i++) {
-        if (opt1Els[i].parentElement.parentElement.getAttribute("class").indexOf("common-lang-block") === -1) {
-          UI.addClass(opt1Els[i], 'has_toggles');
-          opt1Els[i].appendChild(this.renderToggle(true));
-        }
-      }
 
-      var opt2Els = this.parent.getElementsByClassName('hljs ' + this.opt2);
-      for (i = 0; i < opt2Els.length; i++) {
-        if (opt2Els[i].parentElement.parentElement.getAttribute("class").indexOf("common-lang-block") === -1) {
-          UI.addClass(opt2Els[i], 'has_toggles');
-          opt2Els[i].appendChild(this.renderToggle(false));
-        }
-      }
+      // render code blocks
+      if (this.codeBlocks) {
+        const first = this.codeBlocks[0];
+        // this.currentOpt = first.opt;
 
-      $('.' + this.opt2 + '-toggle').on('click', this.showOpt2.bind(this));
-      $('.' + this.opt1 + '-toggle').on('click', this.showOpt1.bind(this));
-      this.toggleOpt(true);
+        for (var cbi = 0; cbi < this.codeBlocks.length; cbi++) {
+          const codeBlock = this.codeBlocks[cbi];
+          var codeClassFilter = codeBlock.opt + ' hljs';
+          var codeBlocksWithSameOpt = this.parent.getElementsByClassName(codeClassFilter);
+          if (codeBlock && codeBlocksWithSameOpt) {
+            for (var i = 0; i < codeBlocksWithSameOpt.length; i++) {
+              UI.addClass(codeBlocksWithSameOpt[i], 'has_toggles');
+              codeBlocksWithSameOpt[i].appendChild(this.renderCodeBlockToggle(first));
+              $('.hljs.' + codeBlock.opt).parent().hide();
+            }
+          }
+        }
+
+        this.codeBlocks.forEach(element => {
+          var clickFilterName = '.' + element.opt + '-toggle';
+          $(clickFilterName).on('click', { opt: element.opt }, this.showOpt.bind(this));
+        });
+        this.toggleCodeBlock(first.opt);
+      }
     },
-
-    renderToggle: function (selectOpt1) {
-      var toggle = UI.tag('div', { className: 'toggles' }, [
-        UI.tag('div', { className: 'toggle-item' }, [
-          UI.tag('a', { className: this.opt1 + '-toggle', href: '#' }, this.label1)
-        ]),
-        UI.tag('div', { className: 'toggle-item' }, [
-          UI.tag('a', { className: this.opt2 + '-toggle', href: '#' }, this.label2)
-        ]),
-      ]);
-
-      if (selectOpt1 === true) {
-        UI.addClass(toggle.childNodes[0], 'selected');
-      } else {
-        UI.addClass(toggle.childNodes[1], 'selected');
-      }
+    renderCodeBlockToggle: function (current) {
+      var toggleBtns = this.codeBlocks.map(opt => {
+        var acln = opt.opt + '-toggle';
+        var tcln = 'toggle-item';
+        if (opt.opt == current.opt) {
+          tcln += ' selected';
+        }
+        return UI.tag('div', { className: tcln }, [
+          UI.tag('a', { className: acln, href: '#' }, opt.label)
+        ])
+      });
+      var toggle = UI.tag('div', { className: 'toggles' }, toggleBtns);
 
       return toggle;
     },
 
-    showOpt1: function (e) {
+    showOpt: function (e) {
+      var opt = e.data.opt;
       e.preventDefault();
-
-      // make sure it's the right toggle
-      if ($(e.target).parent().hasClass('selected')) {
-        return false;
-      }
-
-      var $pre = $(e.target).closest('pre');
-      var distance = $(window).scrollTop() - $pre[0].offsetTop;
-
-
-      // flash the border
-      var $code = $pre.prev().children('code');
-      $code.addClass('code_flash');
-      setTimeout(function () {
-        $code.removeClass('code_flash');
-      }, 2000);
-
-      // scroll to the code block
-      var el = $pre.prev()[0];
-      this.toggleOpt(true);
-      $(window).scrollTop(el.offsetTop + distance);
-    },
-
-    showOpt2: function (e) {
-      e.preventDefault();
-
       // make sure it's the right toggle
       if ($(e.target).parent().hasClass('selected')) {
         return false;
@@ -601,19 +591,28 @@ App.Views = {};
       }, 2000);
 
       // scroll to the code block
-      var el = $pre.next()[0];
-      this.toggleOpt(false);
+      var el;
+      var ci = this.codeBlocks.findIndex(c => c.opt == this.currentOpt);
+      var ti = this.codeBlocks.findIndex(c => c.opt == opt);
+      if (ti - ci > 0) {
+        el = $pre.next()[ti - ci - 1];
+      } else {
+        el = $pre.prev()[ci - ti - 1];
+      }
+
+      this.toggleCodeBlock(opt);
       $(window).scrollTop(el.offsetTop + distance);
     },
-
-    toggleOpt: function (showOpt1) {
-      if (showOpt1 === true) {
-        $('.hljs.' + this.opt2).parent().hide();
-        $('.hljs.' + this.opt1).parent().show();
-      } else {
-        $('.hljs.' + this.opt2).parent().show();
-        $('.hljs.' + this.opt1).parent().hide();
+    
+    toggleCodeBlock: function (opt) {
+      $('.hljs.' + opt).parent().show();
+      $('.' + opt + '-toggle').parent().addClass('selected');
+      if (this.currentOpt) {
+        $('.hljs.' + this.currentOpt).parent().hide();
+        $('.' + this.currentOpt + '-toggle').parent().removeClass('selected');
       }
+
+      this.currentOpt = opt;
       this.onChange();
     }
   };
@@ -677,9 +676,19 @@ App.Views = {};
         new App.Views.Docs.Toggle({
           parent: this.scrollContent,
           opt1: 'swift',
-          opt2: 'js',
+          opt2: 'ts',
           label1: 'Swift',
-          label2: 'JavaScript',
+          label2: 'TypeScript',
+          codeBlocks: [
+            {
+              opt: 'swift',
+              label: 'Swift'
+            },
+            {
+              opt: 'ts',
+              label: 'TypeScript'
+            }
+          ],
           onChange: this.handleToggleChange.bind(this)
         });
       }
@@ -711,6 +720,7 @@ App.Views = {};
     // this hides all but the current one
     toggleCommonLangBlocks: function () {
       $('.common-lang-block').hide();
+      console.log('this.platform', this.platform);
       switch (this.platform) {
         case 'ios':
         case 'osx':

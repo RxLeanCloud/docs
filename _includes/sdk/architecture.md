@@ -1,5 +1,5 @@
 
-# <a name="sdk-architecture"></a> SDK 开发基础架构 {#sdk-architecture}
+# <a name="sdk-architecture"></a> SDK 开发的基础规范 {#sdk-architecture}
 
 作为一个消费 REST API 的 SDK，首先我们需要明确用户代码的操作如何在云端产生正确的行为：
 
@@ -42,7 +42,6 @@ public func set(key: String, value: Any?) {
 
 - 服务端返回了意外的格式，SDK 应该在设计的时候就假设服务端并不是永远都正常，返回了意外的格式甚至服务端无法访问，也应该能保证用户代码不会导致应用的崩溃，并且此时要做好日志打印和现场保留，以便确认问题的根本原因
 
-
 ```swift
 public func httpLog(request: HttpRequest, response: HttpResponse) -> Void {
     if _enableLog {
@@ -79,8 +78,6 @@ public class HttpClient: IHttpClient {
     open static let `default`: HttpClient = {
         return HttpClient()
     }()
-
-    static let backgroundQueue = DispatchQueue(label: "LeanCloud.HttpClient", attributes: .concurrent)
 
     public func rxExecute(httpRequest: HttpRequest) -> Observable<HttpResponse> {
         let manager = self.getAlamofireManager()

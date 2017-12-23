@@ -13,7 +13,7 @@ todo.save().subscribe { (event) in
 }
 </code></pre>
 
-<pre><code class="js">
+<pre><code class="ts">
 let todo: RxAVObject = new RxAVObject('RxTodo');
 
 todo.set('title', '周报提醒');
@@ -34,7 +34,7 @@ todo.fetch().subscribe(onNext: { (element) in
 })
 </code></pre>
 
-<pre><code class="js">
+<pre><code class="ts">
 let todo = RxAVObject.createWithoutData("RxTodo", "59fc0fd52f301e0069c76a67");
 todo.fetch().subscribe(obj => {
     console.log('todo.title',todo.get('title'));

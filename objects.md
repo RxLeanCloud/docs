@@ -1,9 +1,9 @@
 ---
-title: 数据存储 | LeanCloud
+title: 数据存储 RxAVObject | LeanCloud
 permalink: /objects/guide/
 layout: guide
 platform: common
-display_platform: RxObject
+display_platform: RxAVObject
 # api_reference: http://parseplatform.org/Parse-SDK-iOS-OSX/api
 
 redirect_from:

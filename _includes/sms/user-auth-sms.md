@@ -5,7 +5,7 @@
 
 <pre><code class="swift">
 var user = RxAVUser()
-user.mobilePhoneNumber = "18612438929"
+user.mobilePhoneNumber = "13812345678"
 user.email = "jun.wu@leancloud.rocks"
 user.password = "leancloud"
 user.set(key: "nickName", value: "WuJun")
@@ -20,9 +20,9 @@ user.sendSignUpSms().flatMap { (sms) -> Observable&#60;Bool> in
 })
 </code></pre>
 
-<pre><code class="js">
+<pre><code class="ts">
 let user = new RxAVUser();
-user.mobilephone = '18612438929';
+user.mobilephone = '13812345678';
 user.email = 'jun.wu@leancloud.rocks'
 user.password = 'leancloud';
 user.set('nickName', 'WuJun');

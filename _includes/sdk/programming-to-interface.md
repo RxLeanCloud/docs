@@ -40,12 +40,12 @@ SDK 对数据的操作无非就是增删改查，那么对于一个使用 Http �
 public class HttpRequest {
     var method: String
     var url: String
-    var headers: Dictionary<String, String>?
+    var headers: Dictionary&#60;String, String>?
     var data: Data?
 
     init(method: String, 
          url: String, 
-         headers: Dictionary<String, String>?, 
+         headers: Dictionary&#60;String, String>?, 
          data: Data?) {
         self.url = url
         self.headers = headers
@@ -54,15 +54,15 @@ public class HttpRequest {
     }
     convenience init(method: String, 
                      url: String, 
-                     headers: Dictionary<String, String>?, 
-                     jsonData: Dictionary<String, Any>?) {
+                     headers: Dictionary&#60;String, String>?, 
+                     jsonData: Dictionary&#60;String, Any>?) {
         let data = jsonData?.binarization()
         self.init(method: method, url: url, headers: headers, data: data)
     }
 }
 </code></pre>
 
-<pre><code class="js">
+<pre><code class="ts">
 export class HttpRequest {
     public url: string;
     public headers: { [key: string]: string };
@@ -87,7 +87,7 @@ public class HttpClient {
 }
 </code></pre>
 
-<pre><code class="js">
+<pre><code class="ts">
 export class RxHttpClient {
     execute(httpRequest: HttpRequest): Observable&#60;HttpResponse> {
 
@@ -105,7 +105,7 @@ public protocol IHttpClient {
 }
 </code></pre>
 
-<pre><code class="js">
+<pre><code class="ts">
 import { Observable } from 'rxjs';
 import { HttpRequest } from './HttpRequest';
 import { HttpResponse } from './HttpResponse';
@@ -138,7 +138,7 @@ public class AlamofireHttpClient: IHttpClient {
 }
 </code></pre>
 
-<pre><code class="js">
+<pre><code class="ts">
 export class AxiosRxHttpClient implements IRxHttpClient {
 
     execute(httpRequest: HttpRequest): Observable&#60;HttpResponse> {
@@ -197,7 +197,7 @@ public class AVCorePlugins {
 }
 </code></pre>
 
-<pre><code class="js">
+<pre><code class="ts">
 export class SDKPlugins {
 
     private static _sdkPluginsInstance: SDKPlugins;

@@ -1,0 +1,7 @@
+.mime-icon-list {
+    display: flex;
+    flex-wrap: wrap;
+    > [class='icon'] {
+        margin: 1em;
+    }
+}
