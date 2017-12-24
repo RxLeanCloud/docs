@@ -1,17 +1,17 @@
 ---
-title: 数据存储 RxAVObject | RxLeanCloud
-permalink: /objects/guide/
+title: 云函数 RxAVCloudFuntion | RxLeanCloud
+permalink: /cloud-functions/guide/
 layout: guide
 platform: common
-display_platform: RxAVObject
+display_platform: RxAVCloudFuntion
 # api_reference: http://parseplatform.org/Parse-SDK-iOS-OSX/api
 
 redirect_from:
-  - /objects/
+  - /cloud-functions/
 
 sections:
-- "objects/getting-started.md"
-- "objects/init-an-object.md"
+- "cloud-functions/getting-started.md"
+- "cloud-functions/rpc.md"
 # - "ios/queries.md"
 # - "ios/users.md"
 # - "common/sessions.md"

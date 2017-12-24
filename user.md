@@ -1,5 +1,5 @@
 ---
-title: 用户管理 RxAVUser | LeanCloud
+title: 用户管理 RxAVUser | RxLeanCloud
 permalink: /user/guide/
 layout: guide
 platform: common
