@@ -13,10 +13,10 @@ npm install rx-lean-angular --save
 
 
 ```js
-import { RxAVApp, RxAVClient } from 'rx-lean-js-core';
+import { LeanCloudApp, RxAVClient } from 'rx-lean-js-core';
 import { ngRxLeanCloud } from 'rx-lean-angular';
 
-let app = new RxAVApp({
+let app = new LeanCloudApp({
   appId: 'your-app-id',
   appKey: 'your-app-key'
 });
@@ -42,10 +42,10 @@ npm install rx-lean-ionic --save
 在
 
 ```js
-import { RxAVApp, RxAVClient } from 'rx-lean-js-core';
+import { LeanCloudApp, RxAVClient } from 'rx-lean-js-core';
 import { IonLeanCloud } from 'rx-lean-ionic';
 
-let app = new RxAVApp({
+let app = new LeanCloudApp({
   appId: 'your-app-id',
   appKey: 'your-app-key'
 });
@@ -121,9 +121,9 @@ export class NodeJSWebSocketClient implements IWebSocketClient {
 
 
 ```js
-import { RxAVClient, RxAVApp } from 'rx-lean-js-core';
+import { RxAVClient, LeanCloudApp } from 'rx-lean-js-core';
 import { NodeJSWebSocketClient } from './NodeJSWebSocketClient';
-let app = new RxAVApp({
+let app = new LeanCloudApp({
     appId: `your-app-id`,
     appKey: `your-app-key`,
 });

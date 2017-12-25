@@ -10,7 +10,7 @@ user.email = "jun.wu@leancloud.rocks"
 user.password = "leancloud"
 user.set(key: "nickName", value: "WuJun")
 
-user.sendSignUpSms().flatMap { (sms) -> Observable&#60;Bool> in
+user.sendSignUpSMS().flatMap { (sms) -> Observable&#60;Bool> in
     sms.setShortCode(receivedShortCode: "064241")
     return user.signUpWithSms(sms: sms)
 }.subscribe(onNext: { (success) in
@@ -27,7 +27,7 @@ user.email = 'jun.wu@leancloud.rocks'
 user.password = 'leancloud';
 user.set('nickName', 'WuJun');
 
-user.sendSignUpSms().flatMap(sms => {
+user.sendSignUpSMS().flatMap(sms => {
     sms.shortCode = '064241';
     return user.signUpWithSms(sms);
 }).subscribe(success => {

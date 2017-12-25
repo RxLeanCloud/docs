@@ -3,10 +3,10 @@
 
 
 <pre><code class="swift">
-let app: AVApp = AVApp(appId: "uay57kigwe0b6f5n0e1d4z4xhydsml3dor24bzwvzr57wdap", appKey: "kfgz7jjfsk55r5a8a3y4ttd3je1ko11bkibcikonk32oozww")
+let app: LeanCloudApp = LeanCloudApp(appId: "uay57kigwe0b6f5n0e1d4z4xhydsml3dor24bzwvzr57wdap", appKey: "kfgz7jjfsk55r5a8a3y4ttd3je1ko11bkibcikonk32oozww")
 let sdk = AVClient.initialize(app: app)
 
-let qcloudApp = AVApp(appId: "67L3JTrHzTJy688HoJyYbp0J-9Nh9j0Va", appKey: "8MCnFUHUOJcN6l23T09nHojs", region: .Public_East_CN)
+let qcloudApp = LeanCloudApp(appId: "67L3JTrHzTJy688HoJyYbp0J-9Nh9j0Va", appKey: "8MCnFUHUOJcN6l23T09nHojs", region: .Public_East_CN)
 // 增加一个 app，
 _ = sdk.add(app: qcloudApp)
 // 也可以增加一个 replace 参数表示这个 app 是默认的 app 代码：
@@ -17,18 +17,18 @@ _ = sdk.toggleLog(enable: true)
 </code></pre>
 
 <pre><code class="ts">
-import { RxAVClient, RxAVApp } from 'rx-lean-js-core';
+import { RxAVClient, LeanCloudApp } from 'rx-lean-js-core';
 
-let app = new RxAVApp({
+let app = new LeanCloudApp({
     appId: `uay57kigwe0b6f5n0e1d4z4xhydsml3dor24bzwvzr57wdap`,
     appKey: `kfgz7jjfsk55r5a8a3y4ttd3je1ko11bkibcikonk32oozww`,
 });
-let app2 = new RxAVApp({
+let app2 = new LeanCloudApp({
     appId: `1kz3x4fkhvo0ihk967hxdnlfk4etk754at9ciqspjmwidu1t`,
     appKey: `14t4wqop50t4rnq9e99j2b9cyg51o1232ppzzc1ia2u5e05e`,
     shortname: `dev`
 });
-let qcloudApp3 = new RxAVApp({
+let qcloudApp3 = new LeanCloudApp({
     appId: `cfpwdlo41ujzbozw8iazd8ascbpoirt2q01c4adsrlntpvxr`,
     appKey: `lmar9d608v4qi8rvc53zqir106h0j6nnyms7brs9m082lnl7`,
 });
