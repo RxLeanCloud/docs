@@ -1,7 +1,7 @@
-# <a name="use-it-with-ts-js"></a> TypeScript & JavaScript 安装指南 {#use-it-with-ts-js}  
+# rx-lean-js-core for TypeScript & JavaScript 安装指南
 
 
-## <a name="use-it-in-angular"></a> 在 angular(2+,4+,5+) 中使用 {#use-it-in-angular} 
+##  在 angular(2+,4+,5+) 中使用
 
 首先，安装 angular 定制版本的依赖：
 
@@ -12,7 +12,7 @@ npm install rx-lean-angular --save
 在 `app.module.ts` 放置如下代码：
 
 
-```js
+```typescript
 import { LeanCloudApp, RxAVClient } from 'rx-lean-js-core';
 import { ngRxLeanCloud } from 'rx-lean-angular';
 
@@ -31,8 +31,7 @@ RxAVClient.init({
 ```
 
 
-
-## <a name="use-it-in-ionic"></a> 在 ionic(2+,3+) 中使用 {#use-it-in-ionic} 
+## 在 ionic(2+,3+) 中使用
 
 首先，安装 ionic 定制版本的依赖：
 
@@ -41,7 +40,7 @@ npm install rx-lean-ionic --save
 ``` 
 在
 
-```js
+```typescript
 import { LeanCloudApp, RxAVClient } from 'rx-lean-js-core';
 import { IonLeanCloud } from 'rx-lean-ionic';
 
@@ -59,7 +58,7 @@ RxAVClient.init({
 }).add(app);
 ```
 
-## <a name="use-it-in-node"></a>在 nodejs 中使用 {#use-it-in-node}
+## 在 nodejs 中使用
 
 ```bash
 npm install rx-lean-js-core ws --save
@@ -70,7 +69,7 @@ npm install rx-lean-js-core ws --save
 为了在 node 中使用实时通信，需要单独声明一个如下的文件，放在你的代码根目录下即可：
 
 
-```js
+```typescript
 //import WebSocket from 'ws';
 var WebSocket = require('ws');
 import { IWebSocketClient } from '../../src/RxLeanCloud';
@@ -120,7 +119,7 @@ export class NodeJSWebSocketClient implements IWebSocketClient {
 然后初始化：
 
 
-```js
+```typescript
 import { RxAVClient, LeanCloudApp } from 'rx-lean-js-core';
 import { NodeJSWebSocketClient } from './NodeJSWebSocketClient';
 let app = new LeanCloudApp({
@@ -137,6 +136,4 @@ export function init() {
         }
     }).add(app);
 }
-
-
 ```

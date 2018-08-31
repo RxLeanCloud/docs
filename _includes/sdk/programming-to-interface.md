@@ -1,4 +1,4 @@
-# <a name="programming-to-interface"></a>面向接口/协议编程 {#programming-to-interface}
+# 面向接口/协议编程
 
 这个话题真的是老生常谈，烂大街的面试口号了，但是时至今日，依然可以看见众多开源的项目里面，分层逻辑根本没有遵照面向接口/协议编程。
 
@@ -7,11 +7,11 @@
 我们从实际的 SDK 开发的需求来阐述这个命题。
 
 
-## <a name="http-client"></a>我需要一个 Http Client 来帮助我收发 Http 请求 {#http-client}
+## 我需要一个 Http Client 来帮助我收发 Http 请求
 
 常规做法，在 Swift 中引用时下最流行的 Alamofire 作为我的包依赖，然后只要负责调用它就好了，没错，大家都这么想也都这么做，但是你直接在代码里面到处调用 Alamofire.request，你有没有想过，万一 Alamofire 停更了怎么办？万一你发现性能更好的替代品怎么办？还有，使用它，就必须遵循它的一些特性和去适配一些它独特的用法， 这些都是在变化的，面对对象开发的过程中，最忌讳的就是你对变化一如既往的认为它「应该」不会变吧。
 
-## <a name="abstraction-and-encapsulation"></a>抽象出有用的相同的，封装掉用不到和不同的 {#abstraction-and-encapsulation}
+## 抽象出有用的相同的，封装掉用不到和不同的
 
 首先，我们来看看一个 Http 请求在 SDK 级别需要使用到的属性：
 
@@ -34,18 +34,18 @@
 
 SDK 对数据的操作无非就是增删改查，那么对于一个使用 Http 协议消费 REST API 的 SDK来说，它只需要对 Http 请求上的上述四个属性进行操作，就可以满足增删改查，那么剩下那些不需要的东西，就应该向 SDK 透明掉。例如 Alamofire 有一些比较独特编码模式这些就是属于，SDK 不需要去知道的，我只需要你来帮我把我感兴趣的四个属性，当做一个 Http 请求给我发出去就好了。
 
-因此我们在 SDK 内部基于当前的业务逻辑重新定义了一下 Http Request
+因此我们在 SDK 内部基于当前的业务逻辑重新定义了一下 Http Request。
 
-<pre><code class="swift">
+```swift
 public class HttpRequest {
     var method: String
     var url: String
-    var headers: Dictionary&#60;String, String>?
+    var headers: Dictionary<String, String>?
     var data: Data?
 
     init(method: String, 
          url: String, 
-         headers: Dictionary&#60;String, String>?, 
+         headers: Dictionary<String, String>?, 
          data: Data?) {
         self.url = url
         self.headers = headers
@@ -54,15 +54,14 @@ public class HttpRequest {
     }
     convenience init(method: String, 
                      url: String, 
-                     headers: Dictionary&#60;String, String>?, 
-                     jsonData: Dictionary&#60;String, Any>?) {
+                     headers: Dictionary<String, String>?, 
+                     jsonData: Dictionary<String, Any>?) {
         let data = jsonData?.binarization()
         self.init(method: method, url: url, headers: headers, data: data)
     }
 }
-</code></pre>
-
-<pre><code class="ts">
+```
+```typescript
 export class HttpRequest {
     public url: string;
     public headers: { [key: string]: string };
@@ -71,59 +70,95 @@ export class HttpRequest {
 
     constructor() { };
 }
-</code></pre>
+```
+```java
+public class HttpRequest {
+    public String url;
+    public String method;
+    public InputStream body;
+    public Map<String, String> headers;
+
+    public String  getContentType() {
+        return this.headers.get("Content-Type");
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public InputStream getBody() {
+        return body;
+    }
+}
+```
+
 
 *注意*：在真正的 Http 请求里面保罗万象，比如 keep-alive 等特性，实际上在 SDK 中并不需要关心这个，它只需要确保自己选择第三方 Http Client 库能实现这些基本的功能即可。这就是我们上面说的向 SDK 透明掉用不到的。
 
-## <a name="sdk-need-IHttpClient"></a>封装一个 IHttpClient，它只需要做好一件事情 {#sdk-need-IHttpClient}
+## 封装一个 IHttpClient，它只需要做好一件事情
 
 上面的 HttpRequest 已经就绪，此时 SDK 需要一个工具来发送它，代码如下：
 
-<pre><code class="swift">
+```swift
 public class HttpClient {
-    public func rxExecute(httpRequest: HttpRequest) -> Observable&#60;HttpResponse> {
+    public func rxExecute(httpRequest: HttpRequest) -> Observable<HttpResponse> {
 
     }
 }
-</code></pre>
-
-<pre><code class="ts">
+```
+```typescript
 export class RxHttpClient {
-    execute(httpRequest: HttpRequest): Observable&#60;HttpResponse> {
+    execute(httpRequest: HttpRequest): Observable<HttpResponse> {
 
     }
 }
-</code></pre>
+```
+```java
+public class JavaHttpClient {
+    HttpResponse execute(HttpRequest request) {
+
+    }
+}
+// Java 默认支持的是在当前线程执行 Http 请求，如何在 Android 里面实现异步，那是另一个话题->关于异步的封装
+```
+
 
 上面我新建了一个具体的类，来实现发送 HttpRequest 的需求，但是我们知道，类是不稳定的，类是异变的，因此我们把这个类的行为抽象出来，成为一个接口，然后让这个类去实现它，而 SDK 全局只要使用这个接口就可以了，哪怕后来者有人想修改替换这个类，只要他重新提供一个实现了这个接口的类给 SDK，就能保证 SDK 继续健康的工作。
 
-<pre><code class="swift">
+```swift
 import Foundation
 import RxSwift
 public protocol IHttpClient {
-    func rxExecute(httpRequest: HttpRequest) -> Observable&#60;HttpResponse>
+    func rxExecute(httpRequest: HttpRequest) -> Observable<HttpResponse>
 }
-</code></pre>
+```
 
-<pre><code class="ts">
+```typescript
 import { Observable } from 'rxjs';
 import { HttpRequest } from './HttpRequest';
 import { HttpResponse } from './HttpResponse';
 export interface IRxHttpClient {
-    execute(httpRequest: HttpRequest): Observable&#60;HttpResponse>;
+    execute(httpRequest: HttpRequest): Observable<HttpResponse>;
 }
-</code></pre>
+```
+
+```java
+public interface IHttpClient {
+    HttpResponse execute(HttpRequest request);
+}
+// Java 默认支持的是在当前线程执行 Http 请求，如何在 Android 里面实现异步，那是另一个话题->关于异步的封装
+```
 
 完整的代码如下：
 
-<pre><code class="swift">
+```swift
 public class AlamofireHttpClient: IHttpClient {
 
     open static let `default`: AlamofireHttpClient = {
         return AlamofireHttpClient()
     }()
 
-    public func rxExecute(httpRequest: HttpRequest) -> Observable&#60;HttpResponse> {
+    public func rxExecute(httpRequest: HttpRequest) -> Observable<HttpResponse> {
         let manager = self.getAlamofireManager()
         let method = self.getAlamofireMethod(httpRequest: httpRequest)
         let urlEncoding = self.getAlamofireUrlEncoding(httpRequest: httpRequest)
@@ -136,12 +171,11 @@ public class AlamofireHttpClient: IHttpClient {
         }
     }
 }
-</code></pre>
-
-<pre><code class="ts">
+```
+```typescript
 export class AxiosRxHttpClient implements IRxHttpClient {
 
-    execute(httpRequest: HttpRequest): Observable&#60;HttpResponse> {
+    execute(httpRequest: HttpRequest): Observable<HttpResponse> {
         let tuple: [number, any] = [200, ''];
         return Observable.fromPromise(this.RxExecuteAxios(httpRequest)).map(res => {
 
@@ -156,13 +190,13 @@ export class AxiosRxHttpClient implements IRxHttpClient {
         });
     }
 
-    RxExecuteAxios(httpRequest: HttpRequest): Promise&#60;AxiosResponse> {
+    RxExecuteAxios(httpRequest: HttpRequest): Promise<AxiosResponse> {
         let method = httpRequest.method.toUpperCase();
         let useData = false;
         if (method == 'PUT' || 'POST') {
             useData = true;
         }
-        return new Promise&#60;AxiosResponse>((resovle, reject) => {
+        return new Promise<AxiosResponse>((resovle, reject) => {
             axios({
                 method: method,
                 url: httpRequest.url,
@@ -177,14 +211,80 @@ export class AxiosRxHttpClient implements IRxHttpClient {
 
     }
 }
-</code></pre>
+```
+```java
+public class RxLeanCloudJavaGeneralHttpClient implements IHttpClient {
+    private static RxLeanCloudJavaGeneralHttpClient ourInstance = new RxLeanCloudJavaGeneralHttpClient();
 
+    public static RxLeanCloudJavaGeneralHttpClient getInstance() {
+        return ourInstance;
+    }
 
-## <a name="begin-to-use-httpclient"></a>开始消费 Http Client {#begin-to-use-httpclient}
+    OkHttpClient client = new OkHttpClient();
+
+    @Override
+    public HttpResponse execute(HttpRequest request) throws IOException {
+        Request.Builder builder = new Request.Builder();
+        MediaType CONTENT_TYPE = MediaType.parse(String.format("%s; charset=utf-8", request.getContentType()));
+        switch (request.method.toUpperCase()) {
+            case "GET": {
+                builder.get();
+                break;
+            }
+            case "DELETE": {
+                builder.delete();
+                break;
+            }
+            case "PUT": {
+                try {
+                    builder.put(RequestBody.create(CONTENT_TYPE, this.readBytes(request.getBody())));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            }
+            case "POST": {
+                try {
+                    builder.post(RequestBody.create(CONTENT_TYPE, this.readBytes(request.getBody())));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            }
+            default: {
+                builder.get();
+            }
+        }
+        request.headers.forEach((k, v) -> builder.addHeader(k, v));
+        Request okHttpRequest = builder.url(request.getUrl()).build();
+        Response okHttpResponse = this.client.newCall(okHttpRequest).execute();
+
+        HttpResponse response = new HttpResponse();
+        response.statusCode = okHttpResponse.code();
+        response.body = okHttpResponse.body().bytes();
+
+        return response;
+    }
+
+    public byte[] readBytes(InputStream inputStream) throws IOException {
+        byte[] b = new byte[4096];
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        int c;
+        while ((c = inputStream.read(b)) != -1) {
+            stream.write(b, 0, c);
+        }
+        stream.flush();
+        byte[] result = stream.toByteArray();
+        return result;
+    }
+}
+```
+
+## <a name="begin-to-use-httpclient"></a>开始消费 Http Client
 
 首先，我们给我们的 SDK 设置一个插件库，它负责存储 Http Client 的对象，SDK 要用的时候就去这个插件库里面取出来就好了，SDK 内有许多对象都需要去获取这个 Http Client，插件库代码如下：
 
-<pre><code class="swift">
+```swift
 public class AVCorePlugins {
     static let sharedInstance = AVCorePlugins()
 
@@ -195,9 +295,9 @@ public class AVCorePlugins {
         }
     }
 }
-</code></pre>
+```
 
-<pre><code class="ts">
+```typescript
 export class SDKPlugins {
 
     private static _sdkPluginsInstance: SDKPlugins;
@@ -215,7 +315,29 @@ export class SDKPlugins {
         return this._HttpClient;
     }
 }
-</code></pre>
+```
+```java
+public class RxAVCorePlugins {
+    private static RxAVCorePlugins ourInstance = new RxAVCorePlugins();
+
+    public static RxAVCorePlugins getInstance() {
+        return ourInstance;
+    }
+
+    private RxAVCorePlugins() {
+    }
+
+    private IHttpClient httpClient;
+
+    public void setHttpClient(IHttpClient httpClient) {
+        this.httpClient = httpClient;
+    }
+
+    public IHttpClient getHttpClient() {
+        return httpClient;
+    }
+}
+```
 
 当时走到这一步，我需要先卖一个关子，并不是直接从 Plugins.HttpClient 才是最正确的使用方式，这里牵涉到另一个问题：依赖注入
 

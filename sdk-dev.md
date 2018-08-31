@@ -12,4 +12,6 @@ sections:
 - "sdk/getting-started.md"
 - "sdk/architecture.md"
 - "sdk/programming-to-interface.md"
+- "sdk/dependency-inject.md"
+- "sdk/local-storage.md"
 ---

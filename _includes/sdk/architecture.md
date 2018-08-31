@@ -1,5 +1,4 @@
-
-# <a name="sdk-architecture"></a> SDK 开发的基础规范 {#sdk-architecture}
+# SDK 开发的经验分享
 
 作为一个消费 REST API 的 SDK，首先我们需要明确用户代码的操作如何在云端产生正确的行为：
 
@@ -7,7 +6,7 @@
 
 要实现上述流程，其实收到如下几个因素影响。
 
-## <a name="users-need-concision"></a> 用户需要易懂的 SDK {#users-need-concision} 
+## 用户需要易懂的接口
 
 首先，SDK 的接口**最好**满足如下几个条件：
 
@@ -18,7 +17,7 @@
 - 面对对象的语言尽量减少静态函数的暴露以及到处泛滥的远程调用式的函数
 
 
-## <a name="sdk-can-eat-anything"></a> SDK 在需要可以容纳一切意外的输入 {#sdk-can-eat-anything} 
+## 可以容纳一切意外的输入
 
 这里分为两种情况：
 
@@ -37,6 +36,12 @@ public func set(key: String, value: Any?) {
         }
     }
 }
+```
+```typescript
+// 待补充
+```
+```java
+// 待补充
 ```
 
 
@@ -60,8 +65,14 @@ public func httpLog(request: HttpRequest, response: HttpResponse) -> Void {
     }
 }
 ```
+```typescript
+// 待补充
+```
+```java
+// 待补充
+```
 
-## <a name="think-more-is-not-a-fault"></a> 不惧怕过度设计，做到活用依赖注入，保持面向接口/协议编程基本的编程素养 {#think-more-is-not-a-fault}  
+## 不惧怕过度设计，做到活用依赖注入，保持面向接口/协议编程基本的编程素养
 
 比如现在开发 iOS SDK 常常会依赖 Alamofie 作为 HTTP Client 去收发请求，但是请在你的 SDK 里面对它进行封装，保证全局只有一个文件会出现对它的 import，这一点会在依赖注入的章节详细介绍。
 与此类似的是 Java 开发中的 OkHttp 也需要 SDK 开发者对其进行透明化的接口封装。
@@ -93,12 +104,18 @@ public class HttpClient: IHttpClient {
     }
 }
 ```
+```typescript
+// 待补充
+```
+```java
+// 待补充
+```
 
-## <a name="async-is-necessary"></a> 异步一定要优雅，Rx 最好，次一点也要 Task.Async ，再不济 Promise/Future 也行 {#async-is-necessary} 
+## 异步一定要优雅，Rx 最好，次一点也要 Task.Async ，再不济 Promise/Future 也行，抵制 Backbone 式的回调，从你我做起
 
 如果还坚持使用 callback 和 block，那您出门左转，这里不适合你。
 
-##  <a name="user-are-not-trustworthy"></a> 对用户的操作要警惕，用户随时可能反悔之前的操作 {#user-are-not-trustworthy} 
+## 对用户的操作要警惕，用户随时可能反悔之前的操作
 
 因此在客户端做好数据状态的管理，多存一份原始数据，在现如今的客户端设备上根本不会造成性能问题，详细请参考操作树。
 

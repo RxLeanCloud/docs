@@ -1,7 +1,12 @@
 .mime-icon-list {
     display: flex;
     flex-wrap: wrap;
-    > [class='icon'] {
+    >[class='icon'] {
         margin: 1em;
     }
+}
+
+.docs-platforms {
+    display: flex;
+    flex-wrap: wrap;
 }

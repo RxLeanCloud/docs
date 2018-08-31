@@ -507,24 +507,28 @@ App.Views = {};
 
   var Toggle = App.Views.Docs.Toggle = function (options) {
     this.parent = options.parent;
-    this.opt1 = options.opt1;
-    this.opt2 = options.opt2;
-    this.label1 = options.label1;
-    this.label2 = options.label2;
+    // this.opt1 = options.opt1;
+    // this.opt2 = options.opt2;
+    // this.label1 = options.label1;
+    // this.label2 = options.label2;
     this.onChange = options.onChange;
 
     this.codeBlocks =
       [
         { opt: 'swift', label: 'Swift' },
-        { opt: 'ts', label: 'TypeScript' },
-        { opt: 'java-an', label: 'Java@Android' },
-        { opt: 'kt-an', label: 'Kotlin@Android' },
+        { opt: 'typescript', label: 'TypeScript' },
+        { opt: 'javascript', label: 'JavaScript' },
+        { opt: 'java@an', label: 'Java@Android' },
+        { opt: 'java', label: 'Java' },
+        { opt: 'kt@an', label: 'Kotlin@Android' },
         { opt: 'csharp', label: 'C#' },
       ];
     if (options.codeBlocks) {
       this.codeBlocks = options.codeBlocks;
     }
-
+    // this.codeBlocks.forEach(element => {
+    //   element.opt = 'language-' + element.opt;
+    // });
     this.render();
   };
 
@@ -538,22 +542,23 @@ App.Views = {};
 
         for (var cbi = 0; cbi < this.codeBlocks.length; cbi++) {
           const codeBlock = this.codeBlocks[cbi];
-          var codeClassFilter = codeBlock.opt + ' hljs';
+          var fixedOpt = 'language-' + codeBlock.opt;
+          var codeClassFilter = fixedOpt + ' hljs';
           var codeBlocksWithSameOpt = this.parent.getElementsByClassName(codeClassFilter);
           if (codeBlock && codeBlocksWithSameOpt) {
             for (var i = 0; i < codeBlocksWithSameOpt.length; i++) {
               UI.addClass(codeBlocksWithSameOpt[i], 'has_toggles');
-              codeBlocksWithSameOpt[i].appendChild(this.renderCodeBlockToggle(first));
-              $('.hljs.' + codeBlock.opt).parent().hide();
+              codeBlocksWithSameOpt[i].after(this.renderCodeBlockToggle(first));
+              $('.' + fixedOpt + '.hljs').parent().hide();
             }
           }
         }
+        this.toggleCodeBlock(first.opt);
 
         this.codeBlocks.forEach(element => {
           var clickFilterName = '.' + element.opt + '-toggle';
           $(clickFilterName).on('click', { opt: element.opt }, this.showOpt.bind(this));
         });
-        this.toggleCodeBlock(first.opt);
       }
     },
     renderCodeBlockToggle: function (current) {
@@ -565,14 +570,20 @@ App.Views = {};
         }
         return UI.tag('div', { className: tcln }, [
           UI.tag('a', { className: acln, href: '#' }, opt.label)
-        ])
+        ]);
       });
       var toggle = UI.tag('div', { className: 'toggles' }, toggleBtns);
 
       return toggle;
+    }, renderEmptyCode: function (opt) {
+      var fixedOpt = 'language-' + opt;
+      var code = UI.tag('code', { className: fixedOpt + ' hljs has_toggles' }, '此处应该有代码，为什么没有呢？因为我懒...');
+      var pre = UI.tag('pre', { className: '' }, code);
+      var hlDiv = UI.tag('div', { className: 'highlight' }, pre);
     },
 
     showOpt: function (e) {
+
       var opt = e.data.opt;
       e.preventDefault();
       // make sure it's the right toggle
@@ -601,14 +612,17 @@ App.Views = {};
       }
 
       this.toggleCodeBlock(opt);
-      $(window).scrollTop(el.offsetTop + distance);
+      if (el) {
+        $(window).scrollTop(el.offsetTop + distance);
+      }
     },
-    
+
     toggleCodeBlock: function (opt) {
-      $('.hljs.' + opt).parent().show();
+      var fixedOpt = 'language-' + opt;
+      $('.hljs.' + fixedOpt).parent().show();
       $('.' + opt + '-toggle').parent().addClass('selected');
       if (this.currentOpt) {
-        $('.hljs.' + this.currentOpt).parent().hide();
+        $('.hljs.' + 'language-' + this.currentOpt).parent().hide();
         $('.' + this.currentOpt + '-toggle').parent().removeClass('selected');
       }
 
@@ -675,18 +689,22 @@ App.Views = {};
       } else {
         new App.Views.Docs.Toggle({
           parent: this.scrollContent,
-          opt1: 'swift',
-          opt2: 'ts',
-          label1: 'Swift',
-          label2: 'TypeScript',
+          // opt1: 'swift',
+          // opt2: 'ts',
+          // label1: 'Swift',
+          // label2: 'TypeScript',
           codeBlocks: [
             {
               opt: 'swift',
               label: 'Swift'
             },
             {
-              opt: 'ts',
+              opt: 'typescript',
               label: 'TypeScript'
+            },
+            {
+              opt: 'java',
+              label: 'Java'
             }
           ],
           onChange: this.handleToggleChange.bind(this)
@@ -751,6 +769,7 @@ App.Views = {};
         default:
           $('.common-lang-block.swift').show();
           $('.common-lang-block.js').show();
+          $('.common-lang-block.java').show();
       }
     },
 
@@ -933,3 +952,5 @@ if (platform) {
     platform: platform
   });
 }
+
+$('table').addClass('docs_table');

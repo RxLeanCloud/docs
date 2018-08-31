@@ -1,8 +1,8 @@
-## <a name="multi-apps"></a> 多 App 配置 {#multi-apps} 
+## 客户端多应用（多个数据仓库）配置
 一般情况下，一个客户端只会访问一个 LeanCloud app，但是有一些特殊的需求，单个客户端配置了访问多个 LeanCloud app 的需求，因此在 RxLeanCloud SDK 都支持了这种设置，而这一点是官方 SDK 没有的。
 
 
-<pre><code class="swift">
+```swift
 let app: LeanCloudApp = LeanCloudApp(appId: "uay57kigwe0b6f5n0e1d4z4xhydsml3dor24bzwvzr57wdap", appKey: "kfgz7jjfsk55r5a8a3y4ttd3je1ko11bkibcikonk32oozww")
 let sdk = AVClient.initialize(app: app)
 
@@ -13,10 +13,8 @@ _ = sdk.add(app: qcloudApp)
 // sdk.add(app: qcloudApp,replace: true)
 // 打开全局的访问日志
 _ = sdk.toggleLog(enable: true)
-
-</code></pre>
-
-<pre><code class="ts">
+```
+```typescript
 import { RxAVClient, LeanCloudApp } from 'rx-lean-js-core';
 
 let app = new LeanCloudApp({
@@ -38,6 +36,4 @@ export function init() {
         log: true,
     }).add(app).add(app2).add(qcloudApp3, true);
 }
-
-
-</code></pre>
+```

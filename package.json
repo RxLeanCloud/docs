@@ -1,7 +1,7 @@
 {
-  "name": "parsedocs",
+  "name": "rxleanclouddocs",
   "version": "0.0.1",
-  "description": "A static site that serves Parse's documentation using Jekyll on GitHub Pages. Work in progress.",
+  "description": "rxleanclouddocs",
   "main": "_app/main.js",
   "scripts": {
     "start": "npm run dev",
@@ -15,14 +15,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ParsePlatform/docs.git"
+    "url": "git+https://github.com/rxleancloud/docs.git"
   },
   "author": "",
   "license": "UNLICENSED",
   "bugs": {
-    "url": "https://github.com/ParsePlatform/docs/issues"
+    "url": "https://github.com/rxleancloud/docs/issues"
   },
-  "homepage": "https://github.com/ParsePlatform/docs#readme",
+  "homepage": "https://github.com/rxleancloud/docs#readme",
   "devDependencies": {
     "babel-core": "^6.9.0",
     "babel-loader": "^6.2.4",

@@ -3,7 +3,7 @@
 ## <a name="sign-up-by-sms"></a> 使用手机号+验证码注册 _User {#sign-up-by-sms} 
 
 
-<pre><code class="swift">
+```swift
 var user = RxAVUser()
 user.mobilePhoneNumber = "13812345678"
 user.email = "jun.wu@leancloud.rocks"
@@ -18,9 +18,9 @@ user.sendSignUpSMS().flatMap { (sms) -> Observable&#60;Bool> in
         print("sign up successful")
     }
 })
-</code></pre>
+```
 
-<pre><code class="ts">
+```typescript
 let user = new RxAVUser();
 user.mobilephone = '13812345678';
 user.email = 'jun.wu@leancloud.rocks'
@@ -33,6 +33,6 @@ user.sendSignUpSMS().flatMap(sms => {
 }).subscribe(success => {
     console.log('sign up successful');
 });
-</code></pre>
+```
 
 

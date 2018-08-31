@@ -25,7 +25,10 @@ serverfault_tag:   leancloud
 #   dotnet: http://parseplatform.org/Parse-SDK-dotNET/api/
 
 # Build settings
-markdown: kramdown
+# markdown: kramdown
+markdown: redcarpet
+redcarpet:
+  extensions: ["no_intra_emphasis", "fenced_code_blocks", "autolink", "tables", "strikethrough", "superscript", "with_toc_data","hardwrap"]
 exclude: [ Gemfile, Gemfile.lock, README.md, config.codekit, webpack.config.js, node_modules, npm-debug.log, package.json ]
 sass:
     sass_dir: css
@@ -33,6 +36,8 @@ sass:
 # Gems
 gems:
   - jekyll-redirect-from
-
+  - jekyll-mermaid
 whitelist:
   - jekyll-redirect-from
+mermaid:
+  src: 'node_modules/mermaid/dist/mermaid.js'

@@ -12,6 +12,7 @@ sections:
 - "setup/getting-started.md"
 - "setup/swift.md"
 - "setup/typescript.md"
+- "setup/java.md"
 - "setup/private-cloud.md"
 - "setup/multi-apps.md"
 ---
